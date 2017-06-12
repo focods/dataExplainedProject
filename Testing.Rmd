@@ -1,13 +1,38 @@
+---
+title: "Data Explained Project - Testing"
+output: html_document
+---
+
+```{r setup, include=FALSE,message=FALSE,warning=FALSE}
 library(tidyverse)
 library(ggplot2)
 library(plotly)
 data = read.csv('edge1.1.csv')
+```
 
+```{r}
+knitr::kable(colnames(data))
+```
+
+
+```{r}
 p = ggplot(data,
            aes(x=Male_Contributions,
                y=Female_Contributions)) 
 p + geom_point() + facet_wrap(~Discipline)
+```
 
+```{r,fig.height=6}
+df = data
+df$mine = as.integer(as.character(df$PhD_Year))
+p = ggplot(df %>% filter(mine != 'NA'),
+           aes(x=Male_Contributions,
+               y=Female_Contributions)) 
+p + geom_point() + facet_wrap(~PhD_Year)
+```
+
+
+```{r}
 plotRank = function(GROUP){
   x.string=GROUP
   df = data %>%
@@ -26,3 +51,4 @@ plotRank('PhD_Institution')
 plotRank('PhD_Field')
 plotRank('PhD_Year')
 plotRank('Discipline')
+```
