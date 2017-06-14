@@ -49,4 +49,5 @@ plotRank('PhD_Institution')
 plotRank('PhD_Field')
 plotRank('PhD_Year')
 plotRank('Discipline')
+plotRank('HavePhD')
 ```
