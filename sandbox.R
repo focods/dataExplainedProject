@@ -26,25 +26,15 @@ df$new.id = paste(df$Id_num,df$ThreadId,sep='-')
 u.Id_num = unique(df$Id_num)
 u.ThreadId = unique(df$ThreadId)
 
-a = data.frame(x=0,y=0)
-b = data.frame(x=0,y=0)
-for(j in 1:length(u.ThreadId)){
-  b = rbind(b,a)
-  a = data.frame(x=0,y=0)
-  for(i in 1:length(u.Id_num)){
-    a[i,1] = u.Id_num[i]
-    a[i,2] = u.ThreadId[j]
-  }
-}
+all.ids = data.frame(Id_num_n = rep(u.Id_num,length(u.ThreadId)), ThreadId_n = rep(u.ThreadId,length(u.Id_num)))
+all.ids$new.id = paste(all.ids$Id_num_n,all.ids$ThreadId_n,sep='-')
 
-c = b[3:nrow(b),]
-c$new.id = paste(c$x,c$y,sep='-')
-d = merge(df,c,by='new.id',all=TRUE)
-d[is.na(d)] = 0
+full.thread.data = merge(df,all.ids,by='new.id',all=TRUE)
+full.thread.data[is.na(full.thread.data)] = 0
 
 ####################################################################################################
 
 # Creating the "final data frame" which has
-final.df = d %>% 
+final.df = full.thread.data %>% 
   mutate(PARTICIPATION.CALCULATION = Female * participated * FemaleParticipation) %>%
   select(ThreadId,Id_num,Male,Female,FemaleParticipation,PARTICIPATION.CALCULATION)

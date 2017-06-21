@@ -72,6 +72,9 @@ plotScatter = function(GROUP){
 }
 
 plotScatter('Discipline')
+#plotScatter('Title')
+#plotScatter('PhD_Field')
+plotScatter('HavePhD')
 
 ```
 
