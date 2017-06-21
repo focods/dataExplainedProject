@@ -9,7 +9,6 @@ output:
 library(tidyverse)
 library(ggplot2)
 library(plotly)
-library(gridExtra)
 data = read.csv('edge1.1.csv')
 ```
 
@@ -52,29 +51,3 @@ plotRank('PhD_Year')
 plotRank('Discipline')
 plotRank('HavePhD')
 ```
-
-
-```{r}
-plotScatter = function(GROUP){
-  tmp = data %>% 
-  group_by_("ThreadId",GROUP) %>%
-  summarise(Female_Contributions = sum(Female_Contributions),
-            FemaleParticipation = min(FemaleParticipation),
-            UniqueFemaleContributors = sum(UniqueFemaleContributors),
-            UniqueFemaleParticipation = min(UniqueFemaleParticipation))
-
-  p1 = ggplot(tmp,aes(x=FemaleParticipation,y=Female_Contributions)) + geom_point(aes_string(col=GROUP))
-  p2 = ggplot(tmp,aes(x=FemaleParticipation,y=UniqueFemaleContributors)) + geom_point(aes_string(col=GROUP))
-  p3 = ggplot(tmp,aes(x=UniqueFemaleParticipation,y=Female_Contributions)) + geom_point(aes_string(col=GROUP))
-  p4 = ggplot(tmp,aes(x=UniqueFemaleParticipation,y=UniqueFemaleContributors)) + geom_point(aes_string(col=GROUP))
-  
-  grid.arrange(p1,p2,p3,p4,ncol=2)
-}
-
-plotScatter('Discipline')
-#plotScatter('Title')
-#plotScatter('PhD_Field')
-plotScatter('HavePhD')
-
-```
-
